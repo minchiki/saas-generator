@@ -114,7 +114,10 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         models: MODELS,
         stream: true,
-        max_tokens: 4000,
+        // У «думающих» моделей рассуждения входят в max_tokens: ограничиваем их,
+        // а лимит оставляем с запасом, чтобы сама карточка не обрезалась.
+        max_tokens: 10000,
+        reasoning: { effort: "low", exclude: true },
         temperature: 0.7,
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
